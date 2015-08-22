@@ -7,8 +7,12 @@ var controllerApp = express();
 module.exports = {
   messages: {
     get: function (req, res) {
+      console.log("controllers.messages - is this getting called?")
 
-       controllerApp.get('/', function(req, res){})       //on GET
+         var theResponse = models.messages.get();
+         return theResponse;
+
+              //on GET
               //grab all database messages that match room from model
               //parse
               //respond back to client
@@ -27,16 +31,16 @@ module.exports = {
     post: function (req, res) {}
   }
 
-  rooms :{
+  // rooms :{
 
-    get: function(req, res) // on page load
-    {
+  //   get: function(req, res) // on page load
+  //   {
 
-    }
-    post: function (req, res){
+  //   }
+  //   post: function (req, res){
 
-    }
-  }
+  //   }
+  // }
  //possible parser function --!
 
 };

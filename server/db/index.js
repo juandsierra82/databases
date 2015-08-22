@@ -7,12 +7,10 @@ exports.createConnection = function(){
   user: 'root',
   password: '',
   database: 'chat'
-})
+}).connect()
 };
 
-exports.connect = function(){
-  return exports.createConnection.connect()
-};
+
 
 // connection.query('INSERT QUERY HERE', function(err, rows, fields){
 //   if (err) throw err;
