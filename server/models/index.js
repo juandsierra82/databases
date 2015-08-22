@@ -1,23 +1,33 @@
 var db = require('../db');
+var Promise = require('bluebird');
+
 
 
 
 module.exports = {
   messages: {
-    get: function () {   //when server has GET it executes this
-      db.createConnection(); // connect to db
-        console.log("db.query", db.query);
-      var allMessages = db.query('SELECT * FROM messages LEFT JOIN (users, rooms) ON (messages.user_id = users.id AND messages.room_id = rooms.id);')                  //query contains join that calls module.users; module.rooms
-      console.log('allMessages (line 12): ', allMessages); //send mysql command
+    get: function () {   //when server has GET it executes thi // c
+      console.log('models.messages is getting called');
+      var queryFunction = function(){
+        db.connection.query('SELECT * FROM messages LEFT JOIN (users, rooms) ON (messages.user_id = users.id AND messages.room_id = rooms.id);', function(err, rows, fields){
+          if(err) throw err;
+          return rows;
+      })
+      }
+
+       var doQuery = Promise.promisify(queryFunction);
+
+       doQuery.call(queryFunction).then(function(rows){
+                console.log ("promised rows", rows);
+                //return rows;
+              } );
+
+       //return messages;
 
 
-
-      return allMessages     //returns an array of results
-
-    }, // a function which produces all the messages
+    },
     post: function (messageObject) {
-                //when server has POST it excutes this
-        db.createConnection(); //connect to DB
+                //when server has POST it excutes this //connect to DB
 
         var userInfo = db.query('SELECT * FROM users WHERE username = ' + messageObject.username+';')        //query into message
         if(userInfo == null){
@@ -42,8 +52,7 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {   //when server has GET it executes this
-      db.createConnection(); // connect to db
+    get: function () {   //when server has GET it executes this// connect to db
       var allUsers = db.query('SELECT * FROM users;')                  //query contains join that calls module.users; module.rooms
       console.log('allUsers: ', allUsers);
      return allUsers;
@@ -54,8 +63,7 @@ module.exports = {
 
   rooms: {
 
-    get: function(){
-      db.createConnection(); // connect to db
+    get: function(){ // connect to db
       var allRooms = db.query('SELECT * FROM rooms;')                  //query contains join that calls module.users; module.rooms
       console.log('allRooms :', allRooms);
      return allRooms;

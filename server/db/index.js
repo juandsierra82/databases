@@ -1,16 +1,23 @@
 var mysql = require('mysql');
 
 
-exports.createConnection = function(){
-  return mysql.createConnection({
-  // host: '127.0.0.1:3000',
-  user: 'root',
-  password: '',
-  database: 'chat'
-}).connect()
-};
+// exports.createConnection = function(){
+//   return mysql.createConnection({
+//   // host: '127.0.0.1:3000',
+//   user: 'root',
+//   password: null,
+//   database: 'chat'
+// })
+// };
 
+exports.connection = mysql.createConnection({
+   // host: '127.0.0.1:3000',
+   user: 'root',
+   password: null,
+   database: 'chat'
+ })
 
+exports.connection.connect();
 
 // connection.query('INSERT QUERY HERE', function(err, rows, fields){
 //   if (err) throw err;
