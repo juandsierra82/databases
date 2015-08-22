@@ -16,7 +16,7 @@ describe("Persistent Node Chat Server", function() {
     });
     dbConnection.connect();
 
-       var tablename = ""; // TODO: fill this out
+       var tablename = "messages"; // TODO: fill this out
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
@@ -27,7 +27,7 @@ describe("Persistent Node Chat Server", function() {
     dbConnection.end();
   });
 
-  it("Should insert posted messages to the DB", function(done) {
+  it.only("Should insert posted messages to the DB", function(done) {
     // Post the user to the chat server.
     request({ method: "POST",
               uri: "http://127.0.0.1:3000/classes/users",
@@ -55,7 +55,7 @@ describe("Persistent Node Chat Server", function() {
           expect(results.length).to.equal(1);
 
           // TODO: If you don't have a column named text, change this test.
-          expect(results[0].text).to.equal("In mercy's name, three days is all I need.");
+          expect(results[0].content).to.equal("In mercy's name, three days is all I need.");
 
           done();
         });
